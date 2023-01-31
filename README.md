@@ -76,7 +76,7 @@ kuba_db=# \COPY (SELECT * FROM users) TO '/tmp/users.csv' DELIMITER ',' CSV HEAD
 
 then:
 ```bash
-docker exec -it task_3_app_network-postgres-1
+docker exec -it task_3_app_network-postgres-1 bash
 ```
 
 ```bash
