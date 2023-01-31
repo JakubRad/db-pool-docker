@@ -1,0 +1,41 @@
+version: '3.5'
+
+services:
+  app:
+    restart: always
+    image: task_3_app
+    entrypoint: ./entrypoint.sh
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - db_network
+
+  postgres:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/logs
+      - ./fixtures/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - db_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -h postgres -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  db_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
