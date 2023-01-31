@@ -27,7 +27,7 @@ cd Task3
 virtualenv -p python3.11 env
 
 # get repository
-git clone git@github.com:JakubRad/db-pool.git src
+git clone git@github.com:JakubRad/db-pool-docker.git src
 
 . env/bin/activate
 
